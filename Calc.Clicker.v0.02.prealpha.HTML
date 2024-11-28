@@ -1,0 +1,337 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calc Clicker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background: repeating-linear-gradient(90deg, #333, #333 10px, #666 10px, #666 20px); /* Striped background */
+        color: #fff;
+        padding: 20px;
+        height: 100vh;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      h1 {
+        font-family: 'Kavoon', cursive;
+        font-size: 48px;
+        text-align: left;
+        margin-bottom: 0;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+      }
+
+      #version {
+        font-family: 'Kavoon', cursive;
+        font-size: 16px;
+        text-align: left;
+        margin-bottom: 20px;
+        position: absolute;
+        top: 75px;
+        left: 20px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+      }
+
+      #calculator {
+        background: #fff;
+        color: #000;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        display: grid;
+        grid-template-rows: 1fr 4fr;
+        width: 300px;
+        margin: 0 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      #display {
+        background: #ddd;
+        border-radius: 10px;
+        text-align: right;
+        padding: 10px;
+        font-size: 32px;
+        height: 50px;
+        margin-bottom: 10px;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      #buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .button {
+        background: #eee;
+        font-size: 20px;
+        text-align: center;
+        line-height: 60px;
+        border-radius: 10px;
+        cursor: pointer;
+        user-select: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease;
+      }
+
+      .button:active {
+        transform: scale(0.95);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      }
+
+      #equals {
+        background: #4CAF50;
+        color: #fff;
+        grid-column: span 2;
+      }
+
+      #upgrades {
+        background: #fef7e5;
+        color: #333;
+        width: 300px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        overflow-y: auto;
+        margin-left: 20px;
+        position: absolute;
+        top: 100px;
+        right: 20px;
+        font-family: 'Kavoon', cursive;
+      }
+
+      #upgrades h2 {
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .upgrade {
+        margin: 10px 0;
+        padding: 10px;
+        border: 2px solid #333;
+        border-radius: 10px;
+        background: #fff;
+        color: #000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .upgrade button {
+        background: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .upgrade button:disabled {
+        background: #bbb;
+        cursor: not-allowed;
+      }
+
+      #currents {
+        margin-top: 20px;
+        font-size: 24px;
+        text-align: center;
+      }
+
+      #menu {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        z-index: 10;
+        font-family: 'Kavoon', cursive;
+      }
+
+      #menu button {
+        margin-bottom: 10px;
+        font-family: 'Kavoon', cursive;
+      }
+
+      #menuBtn {
+        position: absolute;
+        bottom: 20px;
+        right: 40px;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'Kavoon', cursive;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+      }
+
+      #menuBtn:hover {
+        background-color: #45a049;
+      }
+
+      #bookIcon {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        font-size: 40px;
+        cursor: pointer;
+        color: #fff;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <h1>Calc Clicker</h1>
+    <div id="version">PreAlpha - Version 0.2</div>
+
+    <div id="calculator">
+      <div id="display">0</div>
+      <div id="buttons">
+        <div class="button">7</div>
+        <div class="button">8</div>
+        <div class="button">9</div>
+        <div class="button">*</div>
+        <div class="button">4</div>
+        <div class="button">5</div>
+        <div class="button">6</div>
+        <div class="button">/</div>
+        <div class="button">1</div>
+        <div class="button">2</div>
+        <div class="button">3</div>
+        <div class="button">-</div>
+        <div class="button">C</div>
+        <div class="button">0</div>
+        <div id="equals" class="button">=</div>
+        <div class="button">+</div>
+      </div>
+    </div>
+
+    <div id="upgrades">
+      <h2>Upgrades</h2>
+      <div class="upgrade">
+        <span>Extra Fingers (Cost: <span id="extraFingersCost">50</span> Currents)</span>
+        <button id="buyExtraFingers">Buy</button>
+        <button id="upgradeExtraFingers" disabled>Upgrade</button>
+      </div>
+      <div class="upgrade">
+        <span>Click Force (Cost: <span id="clickForceCost">50</span> Currents)</span>
+        <button id="buyClickForce">Buy</button>
+      </div>
+      <div id="currents">Currents: 0</div>
+    </div>
+
+    <div id="menu">
+      <button id="closeMenuBtn">Close Menu</button>
+      <div>
+        <button id="settingsBtn">Toggle Settings</button>
+      </div>
+    </div>
+
+    <button id="menuBtn">Menu</button>
+    <div id="bookIcon">📚</div>
+
+    <script>
+      let isMenuOpen = false;
+
+      const display = document.getElementById('display');
+      const currentsDisplay = document.getElementById('currents');
+      const buyExtraFingersBtn = document.getElementById('buyExtraFingers');
+      const buyClickForceBtn = document.getElementById('buyClickForce');
+      const extraFingersPrice = [50, 500, 2500, 10000, 50000, 100000];
+      const clickForcePrice = [50, 250, 1000, 5000, 20000, 50000, 100000, 500000, 1000000, 10000000];
+      const clickForceIncrement = 1; // Increase in click force per upgrade (starts at 2, then 3, etc.)
+      
+      let currents = 0;
+      let extraFingers = 0;
+      let clickForceLevel = 0;
+      let fingerClicks = 1;
+      let currentSecond = 0;
+
+      function updateCurrents() {
+        currentsDisplay.textContent = `Currents: ${currents}`;
+        display.textContent = currents; // Update the calculator display
+      }
+
+      function addCurrents(amount) {
+        currents += amount;
+        updateCurrents();
+      }
+
+      function onEqualsClick() {
+        addCurrents(fingerClicks); // Adds current based on finger clicks per second
+      }
+
+      function buyExtraFingers() {
+        if (currents >= extraFingersPrice[extraFingers]) {
+          currents -= extraFingersPrice[extraFingers];
+          extraFingers++;
+          updateCurrents();
+          document.getElementById('extraFingersCost').textContent = extraFingersPrice[extraFingers]; // Update cost
+        }
+      }
+
+      function buyClickForce() {
+        if (currents >= clickForcePrice[clickForceLevel]) {
+          currents -= clickForcePrice[clickForceLevel];
+          clickForceLevel++;
+          fingerClicks += clickForceIncrement; // Increase the click force per click
+          updateCurrents();
+          document.getElementById('clickForceCost').textContent = Math.floor(clickForcePrice[clickForceLevel] * 1.2); // Increase price by 20% for next upgrade
+        }
+      }
+
+      document.getElementById('equals').addEventListener('click', onEqualsClick);
+      buyExtraFingersBtn.addEventListener('click', buyExtraFingers);
+      buyClickForceBtn.addEventListener('click', buyClickForce);
+
+      document.getElementById('menuBtn').addEventListener('click', function() {
+        isMenuOpen = !isMenuOpen;
+        document.getElementById('menu').style.display = isMenuOpen ? 'block' : 'none';
+      });
+
+      document.getElementById('closeMenuBtn').addEventListener('click', function() {
+        isMenuOpen = false;
+        document.getElementById('menu').style.display = 'none';
+      });
+
+      // Periodically add clicks through extra fingers at 1-second intervals in a 10-second loop
+      setInterval(function() {
+        if (currentSecond < extraFingers) {
+          addCurrents(fingerClicks); // Add current based on the number of extra fingers
+        }
+        currentSecond++;
+        if (currentSecond >= 10) {
+          currentSecond = 0; // Reset to start the 10-second loop again
+        }
+      }, 1000);
+
+      updateCurrents(); // Update currents initially
+    </script>
+
+  </body>
+  </html>
